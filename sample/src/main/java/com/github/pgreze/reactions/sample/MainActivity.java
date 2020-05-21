@@ -6,8 +6,11 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
+import com.github.pgreze.reactions.ReactionIcon;
 import com.github.pgreze.reactions.ReactionPopup;
 import com.github.pgreze.reactions.ReactionsConfigBuilder;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,74 +31,76 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sample1() {
+
+        ArrayList<ReactionIcon> icones = new ArrayList<ReactionIcon>();
+        icones.add(new ReactionIcon(R.raw.like, R.drawable.ic_fb_like));
+        icones.add(new ReactionIcon(R.raw.love, R.drawable.ic_fb_love));
+        icones.add(new ReactionIcon(R.raw.wow, R.drawable.ic_fb_wow));
+        icones.add(new ReactionIcon(R.raw.sad, R.drawable.ic_fb_sad));
+
         ReactionPopup popup = new ReactionPopup(
                 this,
                 new ReactionsConfigBuilder(this)
-                        .withReactions(new int[]{
-                                R.raw.like,
-                                R.raw.love,
-                                R.raw.sad,
-                                R.raw.wow,
-                        })
+                        .withReactions(icones)
                         .withReactionTexts(position -> strings[position])
                         .build());
 
         findViewById(R.id.facebook_btn).setOnTouchListener(popup);
     }
 
-    private void sample2() {
-        ReactionPopup popup = new ReactionPopup(
-                this,
-                new ReactionsConfigBuilder(this)
-                        .withReactions(new int[]{
-                                R.drawable.ic_fb_like,
-                                R.drawable.ic_fb_love,
-                                R.drawable.ic_fb_laugh,
-                        })
-                        .withReactionTexts(position -> strings[position])
-                        .withTextBackground(new ColorDrawable(Color.TRANSPARENT))
-                        .withTextColor(Color.BLACK)
-                        .withTextHorizontalPadding(0)
-                        .withTextVerticalPadding(0)
-                        .withTextSize(getResources().getDimension(R.dimen.reactions_text_size))
-                        .build(),
-                position -> true);
-
-        findViewById(R.id.top_btn).setOnTouchListener(popup);
-    }
-
-    private void sample3() {
-        int margin = getResources().getDimensionPixelSize(R.dimen.crypto_item_margin);
-
-        ReactionPopup popup = new ReactionPopup(this, new ReactionsConfigBuilder(this)
-                .withReactions(new int[]{
-                        R.drawable.ic_crypto_btc,
-                        R.drawable.ic_crypto_eth,
-                        R.drawable.ic_crypto_ltc,
-                        R.drawable.ic_crypto_dash,
-                        R.drawable.ic_crypto_xrp,
-                        R.drawable.ic_crypto_xmr,
-                        R.drawable.ic_crypto_doge,
-                        R.drawable.ic_crypto_steem,
-                        R.drawable.ic_crypto_kmd,
-                        R.drawable.ic_crypto_zec
-                })
-                .withReactionTexts(R.array.crypto_symbols)
-                .withPopupColor(Color.LTGRAY)
-                .withReactionSize(getResources().getDimensionPixelSize(R.dimen.crypto_item_size))
-                .withHorizontalMargin(margin)
-                .withVerticalMargin(margin / 2)
-                .withTextBackground(new ColorDrawable(Color.TRANSPARENT))
-                .withTextColor(Color.BLACK)
-                .withTextSize(getResources().getDimension(R.dimen.reactions_text_size) * 1.5f)
-                .build());
-
-        popup.setReactionSelectedListener((position) -> {
-            Log.i("Reactions", "Selection position=" + position);
-            // Close selector if not invalid item (testing purpose)
-            return position != 3;
-        });
-
-        findViewById(R.id.crypto_btn).setOnTouchListener(popup);
-    }
+//    private void sample2() {
+//        ReactionPopup popup = new ReactionPopup(
+//                this,
+//                new ReactionsConfigBuilder(this)
+//                        .withReactions(new int[]{
+//                                R.drawable.ic_fb_like,
+//                                R.drawable.ic_fb_love,
+//                                R.drawable.ic_fb_laugh,
+//                        })
+//                        .withReactionTexts(position -> strings[position])
+//                        .withTextBackground(new ColorDrawable(Color.TRANSPARENT))
+//                        .withTextColor(Color.BLACK)
+//                        .withTextHorizontalPadding(0)
+//                        .withTextVerticalPadding(0)
+//                        .withTextSize(getResources().getDimension(R.dimen.reactions_text_size))
+//                        .build(),
+//                position -> true);
+//
+//        findViewById(R.id.top_btn).setOnTouchListener(popup);
+//    }
+//
+//    private void sample3() {
+//        int margin = getResources().getDimensionPixelSize(R.dimen.crypto_item_margin);
+//
+//        ReactionPopup popup = new ReactionPopup(this, new ReactionsConfigBuilder(this)
+//                .withReactions(new int[]{
+//                        R.drawable.ic_crypto_btc,
+//                        R.drawable.ic_crypto_eth,
+//                        R.drawable.ic_crypto_ltc,
+//                        R.drawable.ic_crypto_dash,
+//                        R.drawable.ic_crypto_xrp,
+//                        R.drawable.ic_crypto_xmr,
+//                        R.drawable.ic_crypto_doge,
+//                        R.drawable.ic_crypto_steem,
+//                        R.drawable.ic_crypto_kmd,
+//                        R.drawable.ic_crypto_zec
+//                })
+//                .withReactionTexts(R.array.crypto_symbols)
+//                .withPopupColor(Color.LTGRAY)
+//                .withReactionSize(getResources().getDimensionPixelSize(R.dimen.crypto_item_size))
+//                .withHorizontalMargin(margin)
+//                .withVerticalMargin(margin / 2)
+//                .withTextBackground(new ColorDrawable(Color.TRANSPARENT))
+//                .withTextColor(Color.BLACK)
+//                .withTextSize(getResources().getDimension(R.dimen.reactions_text_size) * 1.5f)
+//                .build());
+//
+//        popup.setReactionSelectedListener((position) -> {
+//            Log.i("Reactions", "Selection position=" + position);
+//            // Close selector if not invalid item (testing purpose)
+//            return position != 3;
+//        });
+//
+//        findViewById(R.id.crypto_btn).setOnTouchListener(popup);
+//    }
 }

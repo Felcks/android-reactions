@@ -4,12 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Point
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 
 @SuppressLint("ViewConstructor")
 class ReactionView constructor(
         context: Context,
         val reaction: Reaction
-) : ImageView(context) {
+) : AppCompatImageView(context) {
 
     val location = Point()
         get() {
@@ -22,9 +23,13 @@ class ReactionView constructor(
 
     init {
         scaleType = reaction.scaleType
-        setImageDrawable(reaction.image)
-        reaction.image.playAnimation()
 
+        if(reaction.animation != null) {
+            setImageDrawable(reaction.animation)
+            reaction.animation.playAnimation()
+        } else {
+            setImageDrawable(reaction.image)
+        }
     }
 
     @SuppressLint("DrawAllocation")

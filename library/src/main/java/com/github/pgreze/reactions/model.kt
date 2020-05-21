@@ -3,11 +3,11 @@ package com.github.pgreze.reactions
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.widget.ImageView
 import androidx.annotation.ArrayRes
 import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.core.content.ContextCompat
-import android.widget.ImageView
 import com.airbnb.lottie.LottieCompositionFactory
 import com.airbnb.lottie.LottieDrawable
 import kotlin.math.roundToInt
@@ -27,7 +27,8 @@ typealias ReactionSelectedListener = (position: Int) -> Boolean
 typealias ReactionTextProvider = (position: Int) -> CharSequence?
 
 data class Reaction(
-    val image: LottieDrawable,
+    val animation: LottieDrawable?,
+    val image: Drawable,
     val scaleType: ImageView.ScaleType = ImageView.ScaleType.FIT_CENTER
 )
 
@@ -73,7 +74,7 @@ class ReactionsConfigBuilder(val context: Context) {
     var reactions: Collection<Reaction> = emptyList()
 
     // reactions = listOf(R.drawable.img1, R.drawable.img2, ...)
-    var reactionsIds: IntArray
+    var reactionsIds: List<ReactionIcon>
         get() = throw NotImplementedError()
         set(value) { withReactions(value) }
 
@@ -119,19 +120,25 @@ class ReactionsConfigBuilder(val context: Context) {
 
     @JvmOverloads
     fun withReactions(
-        res: IntArray,
+            reactionIcon: List<ReactionIcon>,
         scaleType: ImageView.ScaleType = ImageView.ScaleType.FIT_CENTER
-    ) = withReactions(res.map {
-        val drawable = LottieDrawable()
+    ) = withReactions(reactionIcon.map {
 
-        LottieCompositionFactory.fromRawRes(
-            context,
-            it
-        ).addListener { lottieComposition ->
-            drawable.composition = lottieComposition
-            drawable.repeatCount = LottieDrawable.INFINITE
+        var animationDrawable: LottieDrawable? = null
+
+        if(it.animationResourceId != null) {
+            animationDrawable = LottieDrawable()
+            LottieCompositionFactory.fromRawRes(
+                    context,
+                    it.animationResourceId
+            ).addListener { lottieComposition ->
+                animationDrawable.composition = lottieComposition
+                animationDrawable.repeatCount = LottieDrawable.INFINITE
+            }
         }
-        Reaction(drawable, scaleType)
+
+        val imageDrawable = androidx.appcompat.content.res.AppCompatResources.getDrawable(context, it.imageResourceId)!!
+        Reaction(animationDrawable, imageDrawable, scaleType)
     })
 
     fun withReactionTexts(reactionTextProvider: ReactionTextProvider) = this.also {

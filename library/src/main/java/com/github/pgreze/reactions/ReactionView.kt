@@ -23,6 +23,8 @@ class ReactionView constructor(
     init {
         scaleType = reaction.scaleType
         setImageDrawable(reaction.image)
+        reaction.image.playAnimation()
+
     }
 
     @SuppressLint("DrawAllocation")

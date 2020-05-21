@@ -17,4 +17,5 @@ object Libs {
     const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val core = "androidx.core:core-ktx:1.2.0"
     const val appcompat = "androidx.appcompat:appcompat:1.1.0"
+    const val lottie = "com.airbnb.android:lottie:3.4.0"
 }

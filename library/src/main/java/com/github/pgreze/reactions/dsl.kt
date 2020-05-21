@@ -41,31 +41,5 @@ class ReactionsConfiguration(
         private val context: Context,
         private val scaleType: ImageView.ScaleType,
         private val reactions: MutableList<Reaction>
-) {
-    fun resId(block: () -> Int) {
-        reactions += Reaction(
-                image = getDrawableCompat(context, block())!!,
-                scaleType = scaleType
-        )
-    }
+)
 
-    fun drawable(block: () -> Drawable) {
-        reactions += Reaction(image = block(), scaleType = scaleType)
-    }
-
-    fun reaction(block: ReactionBuilderBlock.() -> Reaction) {
-        reactions += ReactionBuilderBlock(context).run(block)
-    }
-}
-
-class ReactionBuilderBlock(private val context: Context) {
-
-    infix fun Int.scale(scaleType: ImageView.ScaleType) =
-            Reaction(
-                    image = getDrawableCompat(context, this)!!,
-                    scaleType = scaleType
-            )
-
-    infix fun Drawable.scale(scaleType: ImageView.ScaleType) =
-            Reaction(image = this, scaleType = scaleType)
-}

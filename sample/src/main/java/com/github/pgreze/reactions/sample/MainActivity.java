@@ -21,10 +21,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sample1();
-        sample2();
-        sample3();
-
-        KotlinSamplesKt.setup(this);
+//        sample2();
+//        sample3();
+//
+//        KotlinSamplesKt.setup(this);
     }
 
     private void sample1() {
@@ -32,12 +32,10 @@ public class MainActivity extends AppCompatActivity {
                 this,
                 new ReactionsConfigBuilder(this)
                         .withReactions(new int[]{
-                                R.drawable.ic_fb_like,
-                                R.drawable.ic_fb_love,
-                                R.drawable.ic_fb_laugh,
-                                R.drawable.ic_fb_wow,
-                                R.drawable.ic_fb_sad,
-                                R.drawable.ic_fb_angry,
+                                R.raw.like,
+                                R.raw.love,
+                                R.raw.sad,
+                                R.raw.wow,
                         })
                         .withReactionTexts(position -> strings[position])
                         .build());

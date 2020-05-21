@@ -8,6 +8,8 @@ import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.core.content.ContextCompat
 import android.widget.ImageView
+import com.airbnb.lottie.LottieCompositionFactory
+import com.airbnb.lottie.LottieDrawable
 import kotlin.math.roundToInt
 
 /**
@@ -25,7 +27,7 @@ typealias ReactionSelectedListener = (position: Int) -> Boolean
 typealias ReactionTextProvider = (position: Int) -> CharSequence?
 
 data class Reaction(
-    val image: Drawable,
+    val image: LottieDrawable,
     val scaleType: ImageView.ScaleType = ImageView.ScaleType.FIT_CENTER
 )
 
@@ -120,7 +122,16 @@ class ReactionsConfigBuilder(val context: Context) {
         res: IntArray,
         scaleType: ImageView.ScaleType = ImageView.ScaleType.FIT_CENTER
     ) = withReactions(res.map {
-        Reaction(ContextCompat.getDrawable(context, it)!!, scaleType)
+        val drawable = LottieDrawable()
+
+        LottieCompositionFactory.fromRawRes(
+            context,
+            it
+        ).addListener { lottieComposition ->
+            drawable.composition = lottieComposition
+            drawable.repeatCount = LottieDrawable.INFINITE
+        }
+        Reaction(drawable, scaleType)
     })
 
     fun withReactionTexts(reactionTextProvider: ReactionTextProvider) = this.also {
